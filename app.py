@@ -6,8 +6,11 @@ import streamlit as st
 pickle_in= open('models\\brest_cancer_detection 1.pkl','rb')
 brest_cancer_detection=pickle.load(pickle_in)
 
+pickle_in= open('models\\Diabetes_detection.pkl','rb')
+Diabetes_Detection=pickle.load(pickle_in)
+
 def main():
-    activities=["Home", "Brest Cancer Detection", "About","Contack Us","Error and Solutions"]
+    activities=["Home", "Brest Cancer Detection",'Diabetes_Detection', "About","Contack Us","Error and Solutions"]
     choice=st.sidebar.selectbox('SElect Activity',activities)
 
     if choice == "Home":
@@ -66,6 +69,30 @@ def main():
                 predict='Congrats ! you are Healthy'
 
             st.success('The output is {}'.format(predict))
+
+    if choice== 'Diabetes_Detection':
+        st.header('Diabetes_Detection')
+
+        Glucose=st.number_input("Glucose",min_value=0.0)
+        BloodPressure=st.number_input("BloodPressure",min_value=0.0)
+        SkinThickness=st.number_input("SkinThickness",min_value=0.0)
+        Insulin=st.number_input("Insulin",min_value=0.0)
+        BMI=st.number_input("BMI",min_value=0.0)
+        DiabetesPedigreeFunction=st.number_input("DiabetesPedigreeFunction",min_value=0.0)
+        Age=st.number_input("Age",min_value=0.0)
+        Pregnancies=st.number_input("Pregnancies",min_value=0.0)
+
+        if st.button("Predict"):
+
+            result=Diabetes_Detection.predict([[Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,
+                                                DiabetesPedigreeFunction,Age]])
+            if result=='1':
+                predict='Sorry! you are Suffering from Diabetes'
+            else:
+                predict='Congrats ! you are Healthy'   
+
+        st.success('The output is {}'.format(predict))       
+
 
 if __name__=='__main__':
     main()
